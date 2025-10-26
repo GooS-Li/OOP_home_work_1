@@ -18,14 +18,14 @@ class Student:
             return 'Ошибка'
 
     def average_grade_student(self):
-        summary = 0
+        summary_list = []
         grades = self.grades
         value_list = grades.values()
         for i in value_list:
             for j in i:
-                summary += j
-        average = round(summary / len(value_list),2)
-        return f"Средняя оценка студента {self.name} {self.surname} за все курсы равна: {average}"
+                summary_list.append(j)
+        average = round(sum(summary_list) / len(summary_list),2)
+        return average
 
     def __str__(self):
         course_in_progress = ", ".join(self.courses_in_progress)
@@ -36,6 +36,20 @@ class Student:
                 f"Курсы в процессе изучения: {course_in_progress}\n"
                 f"Завершенные курсы: {finished_courses}")
 
+    def __lt__(self, other):
+        return self.average_grade_student() < other.average_grade_student()
+
+    def __gt__(self, other):
+        return self.average_grade_student() > other.average_grade_student()
+
+    def __eq__(self, other):
+        return self.average_grade_student() == other.average_grade_student()
+
+    def __le__(self, other):
+        return self.average_grade_student() <= other.average_grade_student()
+
+    def __ge__(self, other):
+        return self.average_grade_student() >= other.average_grade_student()
 
 
 class Mentor:
@@ -67,13 +81,30 @@ class Lecturer(Mentor):
 
     def average_grade_lecture(self):
         summary = 0
+        count = 0
         grades = self.grades
         value_list = grades.values()
         for i in value_list:
             for j in i:
                 summary += j
+                count +=j
         average = round(summary / len(value_list),2)
-        return f"Средняя оценка лектора {self.name} {self.surname} за все курсы равна: {average}"
+        return average
+
+    def __lt__(self, other):
+        return self.average_grade_lecture() < other.average_grade_lecture()
+
+    def __gt__(self, other):
+        return self.average_grade_lecture() > other.average_grade_lecture()
+
+    def __eq__(self, other):
+        return self.average_grade_lecture() == other.average_grade_lecture()
+
+    def __le__(self, other):
+        return self.average_grade_lecture() <= other.average_grade_lecture()
+
+    def __ge__(self, other):
+        return self.average_grade_lecture() >= other.average_grade_lecture()
 
 
 class Reviewer(Mentor):
@@ -140,15 +171,23 @@ reviewer1.rate_hw(student_man, "Java", 7.7)
 reviewer1.rate_hw(student_woman, "Python", 8.9)
 reviewer1.rate_hw(student_woman, "Java", 7.2)
 reviewer2.rate_hw(student_man, "Python", 8.7)
-reviewer2.rate_hw(student_man, "Python", 9.9)
+reviewer2.rate_hw(student_woman, "Python", 9.9)
 
-print(lecturer1.average_grade_lecture())
-print(lecturer2.average_grade_lecture())
-print(student_man.average_grade_student())
-print(student_woman.average_grade_student())
+print(student_man)
+print()
+print(student_woman)
+print()
+print(lecturer1)
+print()
+print(lecturer2)
+print()
+print(reviewer1)
+print()
+print(reviewer2)
 print(average_grade_lectures(lectures, "Python"))
 print(average_grade_students(students, "Java"))
-
-
-
+print(student_man < student_woman)
+print(lecturer1 > lecturer2)
+print(student_man == student_woman)
+print(lecturer1 < lecturer2)
 
